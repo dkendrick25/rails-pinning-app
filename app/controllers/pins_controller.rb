@@ -17,4 +17,18 @@ class PinsController < ApplicationController
     @pin = Pin.new
   end
   
+  def create
+  	@pin = Pin.create(pin_params)
+  	@pin.save
+  end
+  
+  private
+  	def pin_params
+  		params.require(:pin).permit(:title, :url, :slug, :text, :category_id)
+  end
+  
+  def edit
+  @pin = Pin.edit(pin_params)
+  end
+  
 end

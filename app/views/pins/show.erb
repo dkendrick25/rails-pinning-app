@@ -7,6 +7,7 @@
 
 <div class="show-pin">
   <p><%= "#{@pin.text}" %></p>
+  <img src="<%= @pin.image.url(:medium) if @pin.image.url.present? %>">
 
   <hr/>
   <p>

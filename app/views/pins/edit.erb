@@ -1,1 +1,6 @@
-<%= render 'form' %>
+<h1>Edit a Pin</h1>
+
+<%= render :partial => "form", :locals => 
+  { :button_label => "Update Pin"} %>
+
+<%= link_to 'Back', pins_path %>

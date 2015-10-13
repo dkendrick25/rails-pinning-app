@@ -1,0 +1,47 @@
+<div class="pins">
+  <% @pins.each_slice(3) do |row| %>
+    <div class="row">
+      <% row.each do |pin| %>     
+
+      <div class="pin-container col-md-4">
+        <div class="pin">
+          <div class="pin-header row">
+    
+          <div class="logo-thumbnail col-xs-3" >
+            <% if "#{pin.category_id}" == "2" %>
+              <%= image_tag('rails-logo-thumbnail.png') %>
+            <% elsif "#{pin.category_id}" == "1" %>
+              <%= image_tag('ruby-logo-thumbnail.png') %>                
+            <% end %>
+          </div>  
+          
+          <div class="pin title col-xs-9">
+            <h4>
+             <%= link_to "#{pin.title}", pin_by_name_path(slug: pin.slug) %>
+            </h4>
+            <a class="url" href="<%= "#{pin.url}" %>">
+              <%= "#{pin.url}" %>
+            </a>
+            <p>
+            <% if pin.image.url.nil? %>
+              <%= image_tag('rails-logo-thumbnail.png') %>
+            <% else  %>
+              <img src="<%= pin.image.url(:small) %>">    
+            <% end %>
+          </p>
+          </div>
+        </div>
+          <hr/>
+          <%= render partial: "shared/repin_form", locals: {pin: pin} %> 
+          <p class="text"><%= "#{pin.text}" %></p>
+        
+        <%= link_to repin_path(pin), method: "post" do %>
+          <i class="fa fa-thumb-tack fa-2x"></i>
+          Repin!
+        <% end %> 
+        </div>
+      </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

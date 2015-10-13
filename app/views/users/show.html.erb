@@ -1,3 +1,16 @@
+<div class="header">
+  <h1>Your Pins</h1>
+      <%= link_to ' Add a Pin', new_pin_path, html_options = {class:"fa fa-plus-circle"} %>
+
+</div>
+<hr/>
+<%= render partial: "shared/pins_list" %>
+
+<div>
+ 
+<hr/>
+
+<h1>User Details</h1>
 <p id="notice"><%= notice %></p>
 
 <p>

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_login, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -10,15 +10,39 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    #@user = User.find(params[:id])
+    @pins = current_user.pins
+  end
+  
+
+  #Login method
+  def login
+
+  end
+
+  #Then look for a user with that email and password using your knowledge of ActiveRecord methods. 
+  #Return the user if you find one, and return nil if you don’t.
+  def authenticate
+      @user = User.authenticate(params[:email], params[:password])
+      if @user.nil?
+         @errors = "Your email and password did not match. Try again."
+         render :login      
+      else
+        session[:user_id] = @user.id
+        redirect_to user_path(@user)
+      end
   end
 
   # GET /users/new
   def new
     @user = User.new
+
   end
 
   # GET /users/1/edit
   def edit
+     @user = User.find(params[:id])
+     render :edit
   end
 
   # POST /users
@@ -59,6 +83,11 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def logout
+    session.delete(:user_id)
+    redirect_to :login 
   end
 
   private

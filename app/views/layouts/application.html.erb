@@ -2,6 +2,14 @@
 <html>
 <head>
   <title>Coder Pinterest</title>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -9,7 +17,54 @@
 </head>
 <body>
   <div class="container">
+	<% if !current_user.nil? %>
+	  <div class="user pull-right">
+	    <h3>
+	      <%= "Hi, #{current_user.first_name}!"%> |
+	      <%= link_to "Logout", logout_path(current_user), method: :delete %>
+	    </h3>
+	  </div>
+	<% end %>
+
+<% if logged_in? %>
+  <div class="dropdown">
+ 
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+     <%= "Hi, #{current_user.first_name}!"%>
+      <span class="caret"></span>
+    </button>
+ 
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      <% current_user.boards.each do |board| %>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" href="<%= board_path(board) %>">
+            <%= "#{board.name}" %>
+          </a>
+        </li>
+      <% end %>
+      <li role="presentation" class="divider"></li>
+      <li role="presentation">
+        <%= link_to "Add a Pin", new_pin_path, "role" => "menuitem", "tabindex" => "-1" %>
+      </li>        
+      <li role="presentation">
+        <%= link_to "Add a Board", new_board_path, "role" => "menuitem", "tabindex" => "-1" %>
+      </li>        
+      <li role="presentation" class="divider"></li>
+      <li role="presentation">
+        <%= link_to "Home", root_path, "role" => "menuitem", "tabindex" => "-1" %>
+      </li>                
+      <li role="presentation">
+        <%= link_to "Logout", logout_path(current_user), :method => :delete, "role" => "menuitem", "tabindex" => "-1" %>
+      </li>        
+    </ul>
+ 
+  </div>
+<% end %>
+
+
     <%= yield %>
   </div>
 </body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </html>
